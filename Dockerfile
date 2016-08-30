@@ -1,21 +1,20 @@
-FROM alpine
+FROM alpine:3.4
 
+RUN apk add --no-cache bash dhcp tftp-hpa net-tools supervisor rsyslog
 
-RUN apk add --no-cache bash dhcp 
+ADD dhcpd/dhcpd.sh dhcpd/dhcpd.conf.template /usr/share/dhcpd/
+ADD supervisor/supervisord.conf /etc/supervisord.conf
+ADD rsyslogd/rsyslog.conf /etc/rsyslog.conf
+ADD supervisor/conf.d /usr/share/supervisor/conf.d/
 
-ADD https://raw.githubusercontent.com/jpetazzo/pipework/master/pipework /pipework
-ADD dhcpd.sh /dhcpd.sh
-ADD dhcpd.conf.template /dhcpd.conf.template
+VOLUME /tftpboot /data
 
-RUN chmod +x /dhcpd.sh /pipework
-
-ENV SUBNET= NETMASK= RANGE= GATEWAY= MYIP= \
-    NAMESERVERS=10.19.55.1 \
+ENV SUBNET= NETMASK= RANGE_PXE= RANGE_STATIC= RANGE_OTHER= GATEWAY= SERVER_IP= NAMESERVERS= \
     DEFAULT_LEASE_TIME=600 \
     MAX_LEASE_TIME=1800
 
-
 EXPOSE 67 67/udp 547 547/udp 647 647/udp 847 847/udp
 
-ENTRYPOINT ["/dhcpd.sh"]
-CMD ["-f", "-cf", "/config/dhcpd.conf", "-lf", "/data/dhcpd.leases", "--no-pid"]
+ENTRYPOINT ["supervisord"]
+
+CMD ["-c", "/etc/supervisord.conf", "-n"]
