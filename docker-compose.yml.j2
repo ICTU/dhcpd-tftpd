@@ -6,22 +6,22 @@ services:
     restart: always
     networks:
       public:
-        ipv4_address: {{ SERVER_IP }}
+        ipv4_address: {{ item.SERVER_IP }}
     volumes:
-      - "{{ TFTPBOOT_MAPPING }}"
+      - "{{ item.TFTPBOOT_MAPPING }}"
     environment:
-      - "SERVER_IP={{ SERVER_IP }}"
-      - "GATEWAY={{ GATEWAY }}"
-      - "SUBNET={{ SUBNET }}"
-      - "NETMASK={{ NETMASK }}"
-      - "RANGE_PXE={{ RANGE_PXE }}"
-      - "RANGE_STATIC={{ RANGE_STATIC }}"
-      - "RANGE_OTHER={{ RANGE_OTHER }}"
-      - "NAMESERVERS={{ NAMESERVERS }}"
-      - "DEFAULT_LEASE_TIME={{ DEFAULT_LEASE_TIME }}"
-      - "MAX_LEASE_TIME={{ MAX_LEASE_TIME }}"
+      - "SERVER_IP={{ item.SERVER_IP }}"
+      - "GATEWAY={{ item.GATEWAY }}"
+      - "SUBNET={{ item.SUBNET }}"
+      - "NETMASK={{ item.NETMASK }}"
+      - "RANGE_PXE={{ item.RANGE_PXE }}"
+      - "RANGE_STATIC={{ item.RANGE_STATIC }}"
+      - "RANGE_OTHER={{ item.RANGE_OTHER }}"
+      - "NAMESERVERS={{ item.NAMESERVERS }}"
+      - "DEFAULT_LEASE_TIME={{ item.DEFAULT_LEASE_TIME }}"
+      - "MAX_LEASE_TIME={{ item.MAX_LEASE_TIME }}"
 
 networks:
   public:
     external:
-      name: {{ EXT_NETWORK }}
+      name: {{ item.EXT_NETWORK }}
