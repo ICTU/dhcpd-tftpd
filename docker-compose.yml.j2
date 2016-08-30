@@ -1,0 +1,27 @@
+version: '2'
+
+services:
+  dhcpd-tftpd:
+    image: dhcpd-tftpd
+    restart: always
+    networks:
+      public:
+        ipv4_address: {{ SERVER_IP }}
+    volumes:
+      - "{{ TFTPBOOT_MAPPING }}"
+    environment:
+      - "SERVER_IP={{ SERVER_IP }}"
+      - "GATEWAY={{ GATEWAY }}"
+      - "SUBNET={{ SUBNET }}"
+      - "NETMASK={{ NETMASK }}"
+      - "RANGE_PXE={{ RANGE_PXE }}"
+      - "RANGE_STATIC={{ RANGE_STATIC }}"
+      - "RANGE_OTHER={{ RANGE_OTHER }}"
+      - "NAMESERVERS={{ NAMESERVERS }}"
+      - "DEFAULT_LEASE_TIME={{ DEFAULT_LEASE_TIME }}"
+      - "MAX_LEASE_TIME={{ MAX_LEASE_TIME }}"
+
+networks:
+  public:
+    external:
+      name: {{ EXT_NETWORK }}
