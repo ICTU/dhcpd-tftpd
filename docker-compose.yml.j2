@@ -6,22 +6,22 @@ services:
     restart: always
     networks:
       public:
-        ipv4_address: {{ item.SERVER_IP }}
+        ipv4_address: {{ dhcp.server_ip }}
     volumes:
-      - "{{ item.TFTPBOOT_MAPPING }}"
+      - "{{ tftp.image_directory }}:/tftpboot"
     environment:
-      - "SERVER_IP={{ item.SERVER_IP }}"
-      - "GATEWAY={{ item.GATEWAY }}"
-      - "SUBNET={{ item.SUBNET }}"
-      - "NETMASK={{ item.NETMASK }}"
-      - "RANGE_PXE={{ item.RANGE_PXE }}"
-      - "RANGE_STATIC={{ item.RANGE_STATIC }}"
-      - "RANGE_OTHER={{ item.RANGE_OTHER }}"
-      - "NAMESERVERS={{ item.NAMESERVERS }}"
-      - "DEFAULT_LEASE_TIME={{ item.DEFAULT_LEASE_TIME }}"
-      - "MAX_LEASE_TIME={{ item.MAX_LEASE_TIME }}"
+      - "SERVER_IP={{ dhcp.server_ip }}"
+      - "GATEWAY={{ dhcp.gateway }}"
+      - "SUBNET={{ dhcp.subnet }}"
+      - "NETMASK={{ dhcp.netmask }}"
+      - "RANGE_PXE={{ dhcp.range_pxe }}"
+      - "RANGE_STATIC={{ dhcp.range_static }}"
+      - "RANGE_OTHER={{ dhcp.range_other }}"
+      - "NAMESERVERS={{ dhcp.nameservers }}"
+      - "DEFAULT_LEASE_TIME={{ dhcp.default_lease_time }}"
+      - "MAX_LEASE_TIME={{ dhcp.max_lease_time }}"
 
 networks:
   public:
     external:
-      name: {{ item.EXT_NETWORK }}
+      name: {{ docker.network.name }}
