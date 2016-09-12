@@ -21,6 +21,17 @@ services:
       - "DEFAULT_LEASE_TIME={{ dhcp.default_lease_time }}"
       - "MAX_LEASE_TIME={{ dhcp.max_lease_time }}"
 
+  cloud-config:
+    image: ictu/cloud-config-server
+    depends_on:
+      - dhcpd-tftpd
+    network_mode: service:dhcpd-tftpd
+    volumes:
+      - "{{ cloud-config.directory }}:/cloud-init"
+    environment:
+      - "PORT=80"
+      - "WORKDIR=cloud-init"
+
 networks:
   public:
     external:
