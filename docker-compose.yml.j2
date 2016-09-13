@@ -27,7 +27,7 @@ services:
       - dhcpd-tftpd
     network_mode: service:dhcpd-tftpd
     volumes:
-      - "{{ cloud_config.directory }}:/cloud-init"
+      - "$PWD:/cloud-init"
     environment:
       - "PORT=80"
       - "WORKDIR=cloud-init"
