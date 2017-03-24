@@ -38,5 +38,5 @@ subnet _SUBNET_ netmask _NETMASK_ {
 
 }
 
-# known-clients example
-#host myclient1 { hardware ethernet 01:23:45:00:00:01; fixed-address 192.0.2.5; }
+# known-clients
+include "/etc/dhcpd-reservations.conf";
