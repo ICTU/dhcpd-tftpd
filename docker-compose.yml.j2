@@ -8,6 +8,8 @@ services:
       public:
         ipv4_address: {{ dhcp.server_ip }}
     volumes:
+      - "/home/core/dhcpd-{{ item }}/:/data/"
+      - "/home/core/dhcpd-{{ item }}/dhcpd.conf:/etc/dhcpd.conf"
       - "{{ tftp.image_directory }}:/tftpboot"
     environment:
       - "SERVER_IP={{ dhcp.server_ip }}"
