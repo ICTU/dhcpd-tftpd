@@ -1,4 +1,4 @@
-FROM alpine:3.4
+FROM alpine:3.5
 
 RUN apk add --no-cache bash dhcp tftp-hpa net-tools supervisor rsyslog logrotate
 
@@ -7,6 +7,7 @@ ADD dhcpd/dhcpd-reservations.conf /etc/dhcpd-reservations.conf
 ADD supervisor/supervisord.conf /etc/supervisord.conf
 ADD rsyslogd/rsyslog.conf /etc/rsyslog.conf
 ADD supervisor/conf.d /usr/share/supervisor/conf.d/
+ADD logrotate/logrotate.conf /etc/logrotate.conf
 ADD logrotate/dhcpd /etc/logrotate.d/dhcpd
 
 VOLUME /tftpboot /data
